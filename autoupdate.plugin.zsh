@@ -44,12 +44,16 @@ function upgrade_oh_my_zsh_custom() {
     pt=$(basename ${pt:0:((${#pt} - 1))})
     pushd -q "${p}"
 
+    git stash
+
     if git pull --rebase --stat
     then
       printf "${BLUE}%s${NORMAL}\n" "Hooray! the $pn $pt has been updated and/or is at the current version."
     else
       printf "${RED}%s${NORMAL}\n" "There was an error updating the $pn $pt. Try again later?"
     fi
+
+    git stash pop
 
     popd &>/dev/null
   done
